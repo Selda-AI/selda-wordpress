@@ -4,7 +4,7 @@ Tags: crm, leads, forms, sales, contact form
 Requires at least: 5.8
 Tested up to: 6.9
 Requires PHP: 7.4
-Stable tag: 0.1.1
+Stable tag: 0.2.0
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -50,6 +50,11 @@ No. If you use Contact Form 7, WPForms, Gravity Forms or Elementor Pro, submissi
 The form fields, the page address and your site domain. Nothing else. No cookies, no visitor tracking.
 
 == Changelog ==
+
+= 0.2.0 =
+* Added: notifications. Selda calls the site when a reply is drafted, when someone answers and when a meeting is booked, and the site passes it on to Slack. Incoming calls are checked against a signature.
+* Added: the settings screen says whether the saved key is a sandbox key or a production one, so a test key is not left in place by accident.
+* Added: enquiries ask Selda to draft the reply as they arrive, rather than waiting in a list.
 
 = 0.1.1 =
 * Fixed: submissions failed on sites whose form labels contain non-ASCII characters, such as Finnish or German. Field names are now transliterated before sending.

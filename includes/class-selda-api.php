@@ -18,6 +18,7 @@ class Selda_API {
 	const OPT_ENDPOINT = 'selda_endpoint';
 	const OPT_PROJECT  = 'selda_project_id';
 	const OPT_RUN      = 'selda_run_id';
+	const OPT_AUTO     = 'selda_auto_advance';
 
 	public static function key() {
 		return trim( (string) get_option( self::OPT_KEY, '' ) );
@@ -34,6 +35,18 @@ class Selda_API {
 
 	public static function run() {
 		return trim( (string) get_option( self::OPT_RUN, '' ) );
+	}
+
+	/**
+	 * Whether Selda should write the reply straight away.
+	 *
+	 * With this on, an arriving enquiry does not just sit in a list: Selda
+	 * reads the workspace Brain, drafts a reply and leaves it in the Sales
+	 * Inbox. A person still presses send. That is the difference between a
+	 * CRM and something that actually moves the work forward.
+	 */
+	public static function auto_advance() {
+		return (bool) get_option( self::OPT_AUTO, 1 );
 	}
 
 	public static function is_connected() {
@@ -102,6 +115,70 @@ class Selda_API {
 
 		/* A tool may answer with plain text rather than JSON. Both are valid. */
 		return null === $decoded ? array( 'text' => $text ) : $decoded;
+	}
+
+	/**
+	 * Which world the key points at.
+	 *
+	 * A key beginning sk_test_ runs against the sandbox: leads are stored
+	 * and drafts are written, but nothing counts and nothing leaves. That
+	 * is exactly what you want while setting up, and exactly what you do
+	 * not want on a site taking real enquiries — so the difference is
+	 * shown rather than left to the eye reading a long string.
+	 *
+	 * @return string test, live, or unknown.
+	 */
+	public static function mode( $key = null ) {
+		$key = null === $key ? self::key() : trim( $key );
+		if ( '' === $key ) {
+			return 'unknown';
+		}
+		if ( 0 === strpos( $key, 'sk_test_' ) || 0 === strpos( $key, 'sk_sandbox_' ) ) {
+			return 'test';
+		}
+		if ( 0 === strpos( $key, 'sk_live_' ) || 0 === strpos( $key, 'sk_' ) ) {
+			return 'live';
+		}
+		return 'unknown';
+	}
+
+	/**
+	 * Call the plain HTTP interface.
+	 *
+	 * Most of the plugin speaks the MCP endpoint, which is the documented
+	 * surface and covers everything a form needs. A few housekeeping
+	 * operations — registering the address Selda calls back on — have no
+	 * tool of their own yet, so they go straight to the API.
+	 *
+	 * @param string $fn   Function name, e.g. webhooks.create.
+	 * @param array  $args Arguments.
+	 * @param string $kind Either mutate or query.
+	 */
+	public static function mutate( $fn, $args = array(), $kind = 'mutate' ) {
+		$key = self::key();
+		if ( '' === $key ) {
+			return new WP_Error( 'selda_no_key', __( 'No API key has been saved yet.', 'selda' ) );
+		}
+
+		$response = wp_remote_post( 'https://api.selda.ai/mcp/' . $kind, array(
+			'timeout' => 15,
+			'headers' => array(
+				'Authorization' => 'Bearer ' . $key,
+				'Content-Type'  => 'application/json',
+				'User-Agent'    => 'Selda-WordPress/' . SELDA_VERSION . '; ' . home_url(),
+			),
+			'body' => wp_json_encode( array( 'fn' => $fn, 'args' => (object) $args ) ),
+		) );
+
+		if ( is_wp_error( $response ) ) {
+			return new WP_Error( 'selda_http', $response->get_error_message() );
+		}
+
+		$json = json_decode( wp_remote_retrieve_body( $response ), true );
+		if ( ! empty( $json['error']['message'] ) ) {
+			return new WP_Error( 'selda_api', $json['error']['message'] );
+		}
+		return isset( $json['value'] ) ? $json['value'] : array();
 	}
 
 	/**
@@ -219,6 +296,10 @@ class Selda_API {
 		}
 		if ( ! empty( $args['fields'] ) ) {
 			$payload['payload'] = self::ascii_keys( $args['fields'] );
+		}
+
+		if ( self::auto_advance() ) {
+			$payload['autoAdvance'] = true;
 		}
 
 		/* A form can target its own campaign; otherwise the site default. */

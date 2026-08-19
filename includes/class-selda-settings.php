@@ -96,6 +96,27 @@ class Selda_Settings {
 			update_option( Selda_API::OPT_PROJECT, isset( $_POST['selda_project'] ) ? sanitize_text_field( wp_unslash( $_POST['selda_project'] ) ) : '' );
 			update_option( Selda_API::OPT_RUN, isset( $_POST['selda_run'] ) ? sanitize_text_field( wp_unslash( $_POST['selda_run'] ) ) : '' );
 			update_option( 'selda_capture_all', ! empty( $_POST['selda_capture_all'] ) ? 1 : 0 );
+			update_option( Selda_API::OPT_AUTO, ! empty( $_POST['selda_auto'] ) ? 1 : 0 );
+
+			$slack = isset( $_POST['selda_slack'] ) ? esc_url_raw( wp_unslash( $_POST['selda_slack'] ) ) : '';
+			$was   = Selda_Notify::slack();
+			update_option( Selda_Notify::OPT_SLACK, $slack );
+
+			/* Only bother Selda when the answer actually changed. */
+			if ( '' !== $slack && $was !== $slack ) {
+				$hook = Selda_Notify::register();
+				if ( is_wp_error( $hook ) ) {
+					set_transient( 'selda_notice', array( 'error', sprintf(
+						/* translators: %s: error message */
+						__( 'Saved, but Selda would not accept the notification address: %s', 'selda' ),
+						$hook->get_error_message()
+					) ), 60 );
+					wp_safe_redirect( $back ); exit;
+				}
+			}
+			if ( '' === $slack && '' !== $was ) {
+				Selda_Notify::unregister();
+			}
 			set_transient( 'selda_notice', array( 'success', __( 'Saved.', 'selda' ) ), 60 );
 		}
 
@@ -186,8 +207,25 @@ class Selda_Settings {
 
 	<?php else : ?>
 
+		<?php $mode = Selda_API::mode(); ?>
+		<?php if ( 'test' === $mode ) : ?>
+			<div class="notice notice-warning" style="margin:16px 0">
+				<p>
+					<strong><?php esc_html_e( 'Test key.', 'selda' ); ?></strong>
+					<?php esc_html_e( 'Enquiries reach a sandbox workspace, not your real one. Good for checking the setup; swap in a production key before you rely on it.', 'selda' ); ?>
+				</p>
+			</div>
+		<?php endif; ?>
+
 		<div class="selda-card selda-ok">
-			<h2><?php esc_html_e( 'Connected', 'selda' ); ?></h2>
+			<h2>
+				<?php esc_html_e( 'Connected', 'selda' ); ?>
+				<?php if ( 'test' === $mode ) : ?>
+					<span style="font-size:12px;font-weight:600;text-transform:uppercase;letter-spacing:.06em;padding:3px 9px;border-radius:99px;border:1px solid #b8860b;color:#8a6100;vertical-align:middle;margin-left:6px"><?php esc_html_e( 'Sandbox', 'selda' ); ?></span>
+				<?php elseif ( 'live' === $mode ) : ?>
+					<span style="font-size:12px;font-weight:600;text-transform:uppercase;letter-spacing:.06em;padding:3px 9px;border-radius:99px;border:1px solid #1f7a3f;color:#1f7a3f;vertical-align:middle;margin-left:6px"><?php esc_html_e( 'Production', 'selda' ); ?></span>
+				<?php endif; ?>
+			</h2>
 			<form method="post">
 				<?php wp_nonce_field( 'selda_settings' ); ?>
 				<input type="hidden" name="selda_action" value="save">
@@ -221,6 +259,25 @@ class Selda_Settings {
 								<?php endforeach; ?>
 							</select>
 							<p class="description"><?php esc_html_e( 'A campaign gives the lead a tone of voice and a follow-up rhythm. The first message still waits for your approval.', 'selda' ); ?></p>
+						</td>
+					</tr>
+					<tr>
+						<th scope="row"><?php esc_html_e( 'Draft the reply', 'selda' ); ?></th>
+						<td>
+							<label>
+								<input type="checkbox" name="selda_auto" value="1" <?php checked( Selda_API::auto_advance() ); ?>>
+								<?php esc_html_e( 'Have Selda write a reply as soon as an enquiry arrives', 'selda' ); ?>
+							</label>
+							<p class="description"><?php esc_html_e( 'Selda reads what you have told it about your business and leaves a draft in the Sales Inbox. Nothing is sent: a person still presses send.', 'selda' ); ?></p>
+						</td>
+					</tr>
+					<tr>
+						<th scope="row"><?php esc_html_e( 'Tell me in Slack', 'selda' ); ?></th>
+						<td>
+							<input type="url" name="selda_slack" class="regular-text code" style="width:min(520px,100%)"
+								value="<?php echo esc_attr( Selda_Notify::slack() ); ?>"
+								placeholder="https://hooks.slack.com/services/...">
+							<p class="description"><?php esc_html_e( 'Paste a Slack incoming webhook and Selda will say when a reply is waiting, when someone answers, and when a meeting is booked. Leave empty for no notifications.', 'selda' ); ?></p>
 						</td>
 					</tr>
 					<tr>
