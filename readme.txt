@@ -4,7 +4,7 @@ Tags: crm, leads, forms, sales, contact form
 Requires at least: 5.8
 Tested up to: 6.9
 Requires PHP: 7.4
-Stable tag: 0.1.0
+Stable tag: 0.1.1
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -50,6 +50,9 @@ No. If you use Contact Form 7, WPForms, Gravity Forms or Elementor Pro, submissi
 The form fields, the page address and your site domain. Nothing else. No cookies, no visitor tracking.
 
 == Changelog ==
+
+= 0.1.1 =
+* Fixed: submissions failed on sites whose form labels contain non-ASCII characters, such as Finnish or German. Field names are now transliterated before sending.
 
 = 0.1.0 =
 * First release.

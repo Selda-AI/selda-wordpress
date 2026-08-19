@@ -104,6 +104,35 @@ class Selda_API {
 		return null === $decoded ? array( 'text' => $text ) : $decoded;
 	}
 
+	/**
+	 * Make payload keys safe.
+	 *
+	 * Selda rejects field names containing anything outside plain ASCII,
+	 * and form labels on a non-English site are full of them: "Sähköposti",
+	 * "Yhteyshenkilö", "Größe". The label is kept as the value's companion
+	 * so nothing is lost, but the key itself is transliterated.
+	 */
+	private static function ascii_keys( $fields ) {
+		$out = array();
+		foreach ( (array) $fields as $key => $value ) {
+			$clean = remove_accents( (string) $key );
+			$clean = preg_replace( '/[^A-Za-z0-9_]+/', '_', $clean );
+			$clean = trim( (string) $clean, '_' );
+			if ( '' === $clean ) {
+				$clean = 'field_' . count( $out );
+			}
+			/* Two different labels can flatten to the same key. */
+			$unique = $clean;
+			$n = 2;
+			while ( isset( $out[ $unique ] ) ) {
+				$unique = $clean . '_' . $n;
+				$n++;
+			}
+			$out[ $unique ] = is_scalar( $value ) ? (string) $value : wp_json_encode( $value );
+		}
+		return $out;
+	}
+
 	/** Projects the saved key can see. Used to fill the project selector. */
 	public static function projects( $key = null ) {
 		$result = self::call( 'selda_list_projects', array(), $key );
@@ -189,7 +218,7 @@ class Selda_API {
 			$payload['tags'] = array_values( (array) $args['tags'] );
 		}
 		if ( ! empty( $args['fields'] ) ) {
-			$payload['payload'] = $args['fields'];
+			$payload['payload'] = self::ascii_keys( $args['fields'] );
 		}
 
 		/* A form can target its own campaign; otherwise the site default. */
