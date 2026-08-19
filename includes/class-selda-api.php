@@ -120,11 +120,12 @@ class Selda_API {
 	/**
 	 * Which world the key points at.
 	 *
-	 * A key beginning sk_test_ runs against the sandbox: leads are stored
-	 * and drafts are written, but nothing counts and nothing leaves. That
-	 * is exactly what you want while setting up, and exactly what you do
-	 * not want on a site taking real enquiries — so the difference is
-	 * shown rather than left to the eye reading a long string.
+	 * A key beginning sk_test_ reaches the real workspace but runs with
+	 * limited entitlements: enquiries arrive, and the paid parts — such as
+	 * having the reply drafted automatically — stay switched off. That is
+	 * fine while setting up and wrong once the site is taking real
+	 * enquiries, so the difference is shown rather than left to whoever
+	 * squints at a long string of characters.
 	 *
 	 * @return string test, live, or unknown.
 	 */

@@ -212,7 +212,7 @@ class Selda_Settings {
 			<div class="notice notice-warning" style="margin:16px 0">
 				<p>
 					<strong><?php esc_html_e( 'Test key.', 'selda' ); ?></strong>
-					<?php esc_html_e( 'Enquiries reach a sandbox workspace, not your real one. Good for checking the setup; swap in a production key before you rely on it.', 'selda' ); ?>
+					<?php esc_html_e( 'Enquiries do arrive, but this key runs with limited access: the paid features, including having replies drafted for you, stay off. Swap in a production key to use them.', 'selda' ); ?>
 				</p>
 			</div>
 		<?php endif; ?>
