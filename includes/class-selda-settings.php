@@ -164,7 +164,7 @@ class Selda_Settings {
 		?>
 <div class="wrap selda-wrap">
 	<h1><?php esc_html_e( 'Selda', 'selda' ); ?></h1>
-	<p class="selda-lede"><?php esc_html_e( 'Turn your website into a sales engine. Every enquiry from your site lands in Selda, where the reply is drafted for you.', 'selda' ); ?></p>
+	<p class="selda-lede"><?php esc_html_e( 'Others give you a list. Selda gets you the conversation. Every enquiry from your site lands in Selda, where the reply is drafted for you and you press send.', 'selda' ); ?></p>
 
 	<?php if ( $notice ) : ?>
 		<div class="notice notice-<?php echo 'error' === $notice[0] ? 'error' : 'success'; ?>">
@@ -179,7 +179,7 @@ class Selda_Settings {
 			<p><?php
 				printf(
 					/* translators: %s: link to Selda */
-					esc_html__( 'Create an API key in Selda under Settings, Apps, Selda MCP, then paste it here. %s', 'selda' ),
+					esc_html__( 'Create an API key in Selda under Settings, Connections, MCP server, then paste it here. It is on every plan, the free one included. %s', 'selda' ),
 					'<a href="https://app.selda.ai" target="_blank" rel="noopener">' . esc_html__( 'Open Selda', 'selda' ) . '</a>'
 				);
 			?></p>

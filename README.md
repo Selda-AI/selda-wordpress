@@ -1,8 +1,9 @@
 # Selda for WordPress
 
-Turn your website into a sales engine. Every enquiry, quote request and
-guide download goes straight into [Selda](https://selda.ai), where the
-follow-up is drafted for you.
+Others give you a list. [Selda](https://selda.ai) gets you the
+conversation, and this plugin is the door from your site into it: every
+enquiry, quote request and guide download lands in Selda, where the
+follow-up is drafted from what the person actually asked.
 
 Nothing is ever sent to anyone automatically. Drafts wait for a human to
 press send in the Selda app.
@@ -32,10 +33,18 @@ you it arrived.
 
 ## Connect
 
-1. In Selda, go to **Settings → Apps → Selda MCP** and create an API key.
+1. In Selda, go to **Settings → Connections → MCP server** and create an
+   API key.
 2. Paste it into the plugin and press **Connect**.
 3. Pick the project. If your key can see only one, it is chosen for you.
 4. Press **Send test lead** and watch it arrive.
+
+API and MCP access is on every Selda plan, the free one included, so there
+is no tier to reach before you can create a key. A workspace in test mode
+issues an `sk_test_` key, and everything this plugin does works on it, free.
+On a live workspace, taking enquiries in is the **Inbound intake** add-on:
+without it a live key answers `addon_required` and the delivery log says so
+rather than failing quietly.
 
 The key is stored in the WordPress options table and is never written into
 a page, a form or the front end.
@@ -120,8 +129,13 @@ WordPress 5.8, PHP 7.4, outbound HTTPS. No other plugin required.
 
 ## Support
 
-Issues and pull requests are welcome. For questions about Selda itself see
-[selda.ai](https://selda.ai).
+Issues and pull requests are welcome. For questions about Selda itself:
+
+- [Documentation](https://docs.selda.ai)
+- [Connect your app](https://docs.selda.ai/connect-your-app) — the same API
+  this plugin uses, if you want to call it from your own code
+- [How Selda contacts people](https://docs.selda.ai/how-selda-contacts-people)
+- [Support](https://docs.selda.ai/support)
 
 ## Licence
 

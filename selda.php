@@ -2,7 +2,7 @@
 /**
  * Plugin Name:       Selda
  * Plugin URI:        https://selda.ai
- * Description:       Turn your website into a sales engine. Every enquiry, quote request and guide download goes straight into Selda, where the follow-up is drafted for you.
+ * Description:       Others give you a list. Selda gets you the conversation. Every enquiry, quote request and guide download goes into Selda, where the follow-up is drafted for you and a person presses send.
  * Version:           0.2.0
  * Requires at least: 5.8
  * Requires PHP:      7.4

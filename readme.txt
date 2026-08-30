@@ -8,11 +8,11 @@ Stable tag: 0.2.0
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
-Turn your website into a sales engine. Enquiries go straight into Selda, where the follow-up is drafted for you.
+Others give you a list. Selda gets you the conversation. Site enquiries land in Selda, where the follow-up is drafted for you.
 
 == Description ==
 
-Every enquiry, quote request and guide download from your site lands in Selda with a timeline and an owner, instead of an inbox where it is easy to miss.
+Every enquiry, quote request and guide download from your site lands in Selda with a timeline and an owner, instead of an inbox where it is easy to miss. Selda reads what the person actually asked and drafts the reply from it.
 
 Nothing is ever sent to anyone automatically. Drafts wait for a human to press send in the Selda app.
 
@@ -32,7 +32,7 @@ Many hosts disable PHP mail() or block outbound SMTP, so form messages never lea
 
 1. Upload the plugin and activate it.
 2. Open Selda in the admin menu.
-3. Create an API key in Selda under Settings, Apps, Selda MCP and paste it in.
+3. Create an API key in Selda under Settings, Connections, MCP server and paste it in. API access is on every plan, the free one included.
 4. Pick your project and send a test lead.
 
 == Frequently Asked Questions ==
@@ -49,9 +49,21 @@ No. If you use Contact Form 7, WPForms, Gravity Forms or Elementor Pro, submissi
 
 The form fields, the page address and your site domain. Nothing else. No cookies, no visitor tracking.
 
+= Do I need a paid Selda plan? =
+
+No, not to connect. API access is on every Selda plan, the free one included, and a workspace in test mode issues a test key that this plugin works with in full. Taking enquiries into a live workspace is the Inbound intake add-on; without it a live key is refused and the delivery log tells you so.
+
+= Where do I read more? =
+
+Documentation is at https://docs.selda.ai . The API this plugin uses is at https://docs.selda.ai/connect-your-app , and https://docs.selda.ai/how-selda-contacts-people covers what Selda does once a lead arrives.
+
 == Changelog ==
 
 = 0.2.0 =
+* Changed: the plugin says what Selda actually does. Others give you a list; Selda gets you the conversation, and this plugin is the door into it from your site.
+* Changed: the API key is created under Settings, Connections, MCP server. The old path no longer exists in the app.
+* Added: API access is on every plan, the free one included. Taking enquiries into a live workspace needs the Inbound intake add-on.
+* Added: links to the documentation.
 * Added: notifications. Selda calls the site when a reply is drafted, when someone answers and when a meeting is booked, and the site passes it on to Slack. Incoming calls are checked against a signature.
 * Added: the settings screen says whether the saved key is a sandbox key or a production one, so a test key is not left in place by accident.
 * Added: enquiries ask Selda to draft the reply as they arrive, rather than waiting in a list.
