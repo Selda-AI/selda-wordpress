@@ -164,7 +164,7 @@ class Selda_Settings {
 		?>
 <div class="wrap selda-wrap">
 	<h1><?php esc_html_e( 'Selda', 'selda' ); ?></h1>
-	<p class="selda-lede"><?php esc_html_e( 'Others give you a list. Selda gets you the conversation. Every enquiry from your site lands in Selda, where the reply is drafted for you and you press send.', 'selda' ); ?></p>
+	<p class="selda-lede"><?php esc_html_e( 'Others sell you a tool. Selda builds your sales machine. Every enquiry from your site lands in Selda, where the reply is drafted for you and you press send.', 'selda' ); ?></p>
 
 	<?php if ( $notice ) : ?>
 		<div class="notice notice-<?php echo 'error' === $notice[0] ? 'error' : 'success'; ?>">

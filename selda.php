@@ -2,8 +2,8 @@
 /**
  * Plugin Name:       Selda
  * Plugin URI:        https://selda.ai
- * Description:       Others give you a list. Selda gets you the conversation. Every enquiry, quote request and guide download goes into Selda, where the follow-up is drafted for you and a person presses send.
- * Version:           0.2.0
+ * Description:       Others sell you a tool. Selda builds your sales machine. Every enquiry, quote request and guide download goes into Selda, where the follow-up is drafted for you and a person presses send.
+ * Version:           0.2.1
  * Requires at least: 5.8
  * Requires PHP:      7.4
  * Author:            Selda
@@ -17,7 +17,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-define( 'SELDA_VERSION', '0.2.0' );
+define( 'SELDA_VERSION', '0.2.1' );
 define( 'SELDA_FILE', __FILE__ );
 define( 'SELDA_DIR', plugin_dir_path( __FILE__ ) );
 define( 'SELDA_URL', plugin_dir_url( __FILE__ ) );

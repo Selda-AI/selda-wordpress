@@ -4,11 +4,11 @@ Tags: crm, leads, forms, sales, contact form
 Requires at least: 5.8
 Tested up to: 6.9
 Requires PHP: 7.4
-Stable tag: 0.2.0
+Stable tag: 0.2.1
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
-Others give you a list. Selda gets you the conversation. Site enquiries land in Selda, where the follow-up is drafted for you.
+Others sell you a tool. Selda builds your sales machine. Site enquiries land in Selda, where the follow-up is drafted for you.
 
 == Description ==
 
@@ -58,6 +58,9 @@ No, not to connect. API access is on every Selda plan, the free one included, an
 Documentation is at https://docs.selda.ai . The API this plugin uses is at https://docs.selda.ai/connect-your-app , and https://docs.selda.ai/how-selda-contacts-people covers what Selda does once a lead arrives.
 
 == Changelog ==
+
+= 0.2.1 =
+* Changed: the headline. Selda's own line became "Others sell you a tool. Selda builds your sales machine." on 13.9.2026, and this plugin was still carrying the retired one in four places, including the description WordPress shows in the directory. Nothing about what the plugin does changed.
 
 = 0.2.0 =
 * Changed: the plugin says what Selda actually does. Others give you a list; Selda gets you the conversation, and this plugin is the door into it from your site.

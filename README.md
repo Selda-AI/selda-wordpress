@@ -1,7 +1,7 @@
 # Selda for WordPress
 
-Others give you a list. [Selda](https://selda.ai) gets you the
-conversation, and this plugin is the door from your site into it: every
+Others sell you a tool. [Selda](https://selda.ai) builds your sales
+machine, and this plugin is the door from your site into it: every
 enquiry, quote request and guide download lands in Selda, where the
 follow-up is drafted from what the person actually asked.
 
